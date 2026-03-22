@@ -1,3 +1,7 @@
+--Oracle
+
+
+--Postgress
 CREATE TABLE inventory
 (
     id                 BIGSERIAL PRIMARY KEY,

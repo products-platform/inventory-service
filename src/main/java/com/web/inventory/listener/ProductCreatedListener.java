@@ -1,7 +1,7 @@
 package com.web.inventory.listener;
 
+import com.product.dtos.InventoryCreateEvent;
 import com.product.topics.KafkaTopicConstants;
-import com.web.inventory.dtos.ProductCreateDto;
 import com.web.inventory.models.Inventory;
 import com.web.inventory.services.InventoryService;
 import lombok.RequiredArgsConstructor;
@@ -19,36 +19,36 @@ public class ProductCreatedListener {
     private final ObjectMapper objectMapper;
 
     @KafkaListener(
-            topics = KafkaTopicConstants.PRODUCT_CREATED_TOPIC,
+            topics = KafkaTopicConstants.INVENTORY_CREATE_EVENT,
             groupId = "product-group"
     )
     public void consume(
-            String productCreateJson,
+            String inventoryCreateJson,
             @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
             @Header(KafkaHeaders.RECEIVED_PARTITION) int partition,
             @Header(KafkaHeaders.OFFSET) long offset
     ) {
-        ProductCreateDto event = objectMapper.readValue(productCreateJson, ProductCreateDto.class);
+        InventoryCreateEvent event = objectMapper.readValue(inventoryCreateJson, InventoryCreateEvent.class);
 
         System.out.println("📦 Product Event | Topic: %s | Partition: %s | Offset: %s | Product Name: %s | Product Id: %s"
-                        .formatted(topic, partition, offset, event.productName(), event.productId())
+                        .formatted(topic, partition, offset, event.sku(), event.productId())
         );
 
         // Business logic here
-        System.out.println("Product Name : %s and Product Id : %s".formatted(event.productName(), event.productId()));
+        System.out.println("Product Name : %s and Product Id : %s".formatted(event.sku(), event.productId()));
         processProduct(event);
     }
 
-    public void processProduct(ProductCreateDto event) {
+    public void processProduct(InventoryCreateEvent event) {
         // Example business logic
-        System.out.println("Processing product: " + event.productName());
+        System.out.println("Processing product: " + event.sku());
         if (inventoryService.findByProductId(event.productId())) {
             return;
         }
 
         Inventory inventory = Inventory.builder()
                 .productId(event.productId())
-                .productName(event.productName())
+                .productName(event.sku())
                 .availableQuantity(0)
                 .reservedQuantity(0)
                 .build();
