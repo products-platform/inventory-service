@@ -14,17 +14,4 @@ public interface InventoryService {
 
     InventoryResponse deductStock(ReserveRequest request);
 
-   /* InventoryDto getInventory(Long productId);
-
-    InventoryDto reserve(Long productId, Integer quantity);
-
-    InventoryDto confirm(Long productId, Integer quantity);
-
-    InventoryDto release(Long productId, Integer quantity);
-
-    void saveInventory(Inventory inventory);
-
-    boolean findByProductId(Long aLong);
-
-    boolean reserveStock(List<OrderItemEvent> items);*/
 }
