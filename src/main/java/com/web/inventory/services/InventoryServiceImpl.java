@@ -1,18 +1,17 @@
 package com.web.inventory.services;
 
-import com.product.exceptions.InventoryNotFoundException;
-import com.product.exceptions.NoStockAvailableException;
-import com.web.inventory.dtos.InventoryDto;
-import com.web.inventory.dtos.OrderItemEvent;
+import com.product.dtos.InventoryRequest;
+import com.product.dtos.InventoryResponse;
+import com.product.dtos.ReserveRequest;
 import com.web.inventory.models.Inventory;
+import com.web.inventory.models.InventoryTransaction;
 import com.web.inventory.repos.InventoryRepository;
+import com.web.inventory.repos.InventoryTxnRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -20,131 +19,97 @@ import java.util.stream.Collectors;
 public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
+    private final InventoryTxnRepository txnRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public InventoryDto getInventory(Long productId) {
-        Inventory inventory = getInventoryEntity(productId);
-        return mapToDto(inventory);
-    }
+    public InventoryResponse addStock(InventoryRequest request) {
 
-    @Override
-    public InventoryDto reserve(Long productId, Integer quantity) {
-        Inventory inventory = getInventoryEntity(productId);
+        Inventory inventory = inventoryRepository
+                .findByVariantSkuAndLocationId(request.variantSku(), request.locationId())
+                .orElseGet(() -> {
+                    Inventory inv = new Inventory();
+                    inv.setVariantSku(request.variantSku());
+                    inv.setLocationId(request.locationId());
+                    return inv;
+                });
 
-        if (inventory.getAvailableQuantity() < quantity) {
-            throw new NoStockAvailableException(productId);
-        }
+        inventory.setAvailableQty(inventory.getAvailableQty() + request.quantity());
 
-        inventory.setAvailableQuantity(
-                inventory.getAvailableQuantity() - quantity
-        );
-
-        inventory.setReservedQuantity(
-                inventory.getReservedQuantity() + quantity
-        );
-
-        return mapToDto(inventory);
-    }
-
-    @Override
-    public InventoryDto confirm(Long productId, Integer quantity) {
-
-        Inventory inventory = getInventoryEntity(productId);
-
-        inventory.setReservedQuantity(
-                inventory.getReservedQuantity() - quantity
-        );
-
-        return mapToDto(inventory);
-    }
-
-    @Override
-    public InventoryDto release(Long productId, Integer quantity) {
-        Inventory inventory = getInventoryEntity(productId);
-        inventory.setAvailableQuantity(
-                inventory.getAvailableQuantity() + quantity
-        );
-
-        inventory.setReservedQuantity(
-                inventory.getReservedQuantity() - quantity
-        );
-
-        return mapToDto(inventory);
-    }
-
-    @Override
-    public void saveInventory(Inventory inventory) {
         inventoryRepository.save(inventory);
+
+        logTxn(request.variantSku(), request.locationId(), "ADD", request.quantity(), null);
+
+        return map(inventory);
     }
 
     @Override
-    public boolean findByProductId(Long aLong) {
-        return inventoryRepository.findByProductId(aLong).isPresent();
-    }
+    public InventoryResponse reserveStock(ReserveRequest request) {
 
-    @Transactional
-    public boolean reserveStock(List<OrderItemEvent> items) {
-        // 1️⃣ Collect product IDs
-        List<Long> productIds = items.stream()
-                .map(OrderItemEvent::productId)
-                .toList();
+        Inventory inventory = getInventory(request);
 
-        // 2️⃣ Fetch all inventory rows with lock
-        List<Inventory> inventories =
-                inventoryRepository.findAllByProductIdsForUpdate(productIds);
-
-        Map<Long, Inventory> inventoryMap =
-                inventories.stream()
-                        .collect(Collectors.toMap(
-                                Inventory::getProductId,
-                                i -> i
-                        ));
-
-        // 3️⃣ VALIDATION LOOP (no deduction yet)
-        for (OrderItemEvent item : items) {
-            Inventory inventory =
-                    inventoryMap.get(item.productId());
-
-            if (inventory == null ||
-                    inventory.getAvailableQuantity()
-                            < item.quantity()) {
-                return false; // fail early
-            }
+        if (inventory.getAvailableQty() < request.quantity()) {
+            throw new RuntimeException("Insufficient stock");
         }
 
-        // 4️⃣ DEDUCTION LOOP (only if all valid)
-        for (OrderItemEvent item : items) {
-            Inventory inventory = inventoryMap.get(item.productId());
+        inventory.setAvailableQty(inventory.getAvailableQty() - request.quantity());
+        inventory.setReservedQty(inventory.getReservedQty() + request.quantity());
 
-            if (inventory.getAvailableQuantity() < item.quantity()) {
-                return false;
-            }
+        logTxn(request.variantSku(), request.locationId(), "RESERVE",
+                request.quantity(), request.referenceId());
 
-            // Move stock from available → reserved
-            inventory.setAvailableQuantity(
-                    inventory.getAvailableQuantity() - item.quantity()
-            );
-
-            inventory.setReservedQuantity(
-                    inventory.getReservedQuantity() + item.quantity()
-            );
-        }
-        return true;
+        return map(inventory);
     }
 
-    private Inventory getInventoryEntity(Long productId) {
-        return inventoryRepository.findByProductId(productId)
-                .orElseThrow(() -> new InventoryNotFoundException(productId));
+    @Override
+    public InventoryResponse releaseStock(ReserveRequest request) {
+
+        Inventory inventory = getInventory(request);
+
+        inventory.setReservedQty(inventory.getReservedQty() - request.quantity());
+        inventory.setAvailableQty(inventory.getAvailableQty() + request.quantity());
+
+        logTxn(request.variantSku(), request.locationId(), "RELEASE",
+                request.quantity(), request.referenceId());
+
+        return map(inventory);
     }
 
-    private InventoryDto mapToDto(Inventory inventory) {
-        return new InventoryDto(
-                inventory.getId(),
-                inventory.getProductId(),
-                inventory.getAvailableQuantity(),
-                inventory.getReservedQuantity(),
-                inventory.getLastUpdated()
+    @Override
+    public InventoryResponse deductStock(ReserveRequest request) {
+
+        Inventory inventory = getInventory(request);
+
+        inventory.setReservedQty(inventory.getReservedQty() - request.quantity());
+
+        logTxn(request.variantSku(), request.locationId(), "DEDUCT",
+                request.quantity(), request.referenceId());
+
+        return map(inventory);
+    }
+
+    private Inventory getInventory(ReserveRequest request) {
+        return inventoryRepository
+                .findByVariantSkuAndLocationId(request.variantSku(), request.locationId())
+                .orElseThrow(() -> new RuntimeException("Inventory not found"));
+    }
+
+    private void logTxn(String sku, Long locId, String type, Integer qty, String ref) {
+        InventoryTransaction txn = new InventoryTransaction();
+        txn.setVariantSku(sku);
+        txn.setLocationId(locId);
+        txn.setType(type);
+        txn.setQuantity(qty);
+        txn.setReferenceId(ref);
+        txn.setCreatedAt(Instant.now());
+        txnRepository.save(txn);
+    }
+
+    private InventoryResponse map(Inventory inv) {
+        return new InventoryResponse(
+                inv.getVariantSku(),
+                inv.getLocationId(),
+                inv.getAvailableQty(),
+                inv.getReservedQty()
         );
     }
 }

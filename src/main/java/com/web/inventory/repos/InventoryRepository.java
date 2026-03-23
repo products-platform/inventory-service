@@ -19,4 +19,6 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT i FROM Inventory i WHERE i.productId IN :ids")
     List<Inventory> findAllByProductIdsForUpdate(@Param("ids") List<Long> ids);
+
+    Optional<Inventory> findByVariantSkuAndLocationId(String sku, Long locationId);
 }

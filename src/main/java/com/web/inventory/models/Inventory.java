@@ -1,44 +1,29 @@
 package com.web.inventory.models;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.time.Instant;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Table(name = "inventory")
+@Table(name = "INVENTORY",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"VARIANT_SKU", "LOCATION_ID"}))
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Inventory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private Long productId;
+    @Column(name = "VARIANT_SKU", nullable = false)
+    private String variantSku;
 
-    @Column
-    private String productName;
+    @Column(name = "LOCATION_ID", nullable = false)
+    private Long locationId;
 
-    @Column(nullable = false)
-    private Integer availableQuantity;
+    @Column(name = "AVAILABLE_QTY", nullable = false)
+    private Integer availableQty = 0;
 
-    @Column(nullable = false)
-    private Integer reservedQuantity = 0;
-
-    @Version
-    private Integer version;
-
-    @Column(nullable = false)
-    private Instant lastUpdated;
-
-    @PrePersist
-    @PreUpdate
-    public void updateTimestamp() {
-        this.lastUpdated = Instant.now();
-    }
+    @Column(name = "RESERVED_QTY", nullable = false)
+    private Integer reservedQty = 0;
 }
