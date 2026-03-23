@@ -1,8 +1,5 @@
 package com.web.inventory.listener;
 
-import com.web.inventory.dtos.OrderItemEvent;
-import com.web.inventory.dtos.PaymentFailedEvent;
-import com.web.inventory.models.Inventory;
 import com.web.inventory.repos.InventoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -20,7 +17,7 @@ public class PaymentEventListener {
     @KafkaListener(topics = "payment-failed")
     @Transactional
     public void handlePaymentFailed(String paymentFailedEventJson) {
-        System.out.println("Payment service OrderInventoryListener handlePaymentFailed:: " + paymentFailedEventJson);
+        /*System.out.println("Payment service OrderInventoryListener handlePaymentFailed:: " + paymentFailedEventJson);
         PaymentFailedEvent paymentEvent = objectMapper.readValue(paymentFailedEventJson, PaymentFailedEvent.class);
         for (OrderItemEvent item : paymentEvent.items()) {
             Inventory inventory = inventoryRepository
@@ -36,7 +33,7 @@ public class PaymentEventListener {
 
             inventory.setReservedQuantity(
                     inventory.getReservedQuantity() - item.quantity()
-            );
-        }
+            );*/
+        //}
     }
 }

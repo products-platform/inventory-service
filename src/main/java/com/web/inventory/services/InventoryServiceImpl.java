@@ -23,7 +23,6 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public InventoryResponse addStock(InventoryRequest request) {
-
         Inventory inventory = inventoryRepository
                 .findByVariantSkuAndLocationId(request.variantSku(), request.locationId())
                 .orElseGet(() -> {

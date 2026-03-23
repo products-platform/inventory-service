@@ -1,0 +1,43 @@
+[
+  { "variantSku": "APL-IP14-128-BLK", "locationId": 1, "quantity": 50 },
+  { "variantSku": "APL-IP14-128-BLK", "locationId": 2, "quantity": 45 },
+  { "variantSku": "APL-IP14-128-BLK", "locationId": 3, "quantity": 40 },
+  { "variantSku": "APL-IP14-128-BLK", "locationId": 4, "quantity": 35 },
+  { "variantSku": "APL-IP14-128-BLK", "locationId": 5, "quantity": 30 },
+
+  { "variantSku": "APL-IP14-256-BLU", "locationId": 1, "quantity": 30 },
+  { "variantSku": "APL-IP14-256-BLU", "locationId": 2, "quantity": 28 },
+  { "variantSku": "APL-IP14-256-BLU", "locationId": 3, "quantity": 26 },
+  { "variantSku": "APL-IP14-256-BLU", "locationId": 4, "quantity": 24 },
+  { "variantSku": "APL-IP14-256-BLU", "locationId": 5, "quantity": 22 },
+
+  { "variantSku": "APL-IP15-128-PNK", "locationId": 1, "quantity": 60 },
+  { "variantSku": "APL-IP15-128-PNK", "locationId": 2, "quantity": 55 },
+  { "variantSku": "APL-IP15-128-PNK", "locationId": 3, "quantity": 50 },
+  { "variantSku": "APL-IP15-128-PNK", "locationId": 4, "quantity": 45 },
+  { "variantSku": "APL-IP15-128-PNK", "locationId": 5, "quantity": 40 },
+
+  { "variantSku": "APL-IP15-256-BLK", "locationId": 1, "quantity": 25 },
+  { "variantSku": "APL-IP15-256-BLK", "locationId": 2, "quantity": 22 },
+  { "variantSku": "APL-IP15-256-BLK", "locationId": 3, "quantity": 20 },
+  { "variantSku": "APL-IP15-256-BLK", "locationId": 4, "quantity": 18 },
+  { "variantSku": "APL-IP15-256-BLK", "locationId": 5, "quantity": 15 },
+
+  { "variantSku": "SMS-S23-128-BLK", "locationId": 1, "quantity": 70 },
+  { "variantSku": "SMS-S23-128-BLK", "locationId": 2, "quantity": 65 },
+  { "variantSku": "SMS-S23-128-BLK", "locationId": 3, "quantity": 60 },
+  { "variantSku": "SMS-S23-128-BLK", "locationId": 4, "quantity": 55 },
+  { "variantSku": "SMS-S23-128-BLK", "locationId": 5, "quantity": 50 },
+
+  { "variantSku": "SMS-S23-256-GRN", "locationId": 1, "quantity": 40 },
+  { "variantSku": "SMS-S23-256-GRN", "locationId": 2, "quantity": 38 },
+  { "variantSku": "SMS-S23-256-GRN", "locationId": 3, "quantity": 35 },
+  { "variantSku": "SMS-S23-256-GRN", "locationId": 4, "quantity": 32 },
+  { "variantSku": "SMS-S23-256-GRN", "locationId": 5, "quantity": 30 },
+
+  { "variantSku": "SMS-FOLD5-256-BLU", "locationId": 1, "quantity": 10 },
+  { "variantSku": "SMS-FOLD5-256-BLU", "locationId": 2, "quantity": 9 },
+  { "variantSku": "SMS-FOLD5-256-BLU", "locationId": 3, "quantity": 8 },
+  { "variantSku": "SMS-FOLD5-256-BLU", "locationId": 4, "quantity": 7 },
+  { "variantSku": "SMS-FOLD5-256-BLU", "locationId": 5, "quantity": 6 }
+]

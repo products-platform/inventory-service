@@ -3,11 +3,6 @@ package com.web.inventory.services;
 import com.product.dtos.InventoryRequest;
 import com.product.dtos.InventoryResponse;
 import com.product.dtos.ReserveRequest;
-import com.web.inventory.dtos.InventoryDto;
-import com.web.inventory.dtos.OrderItemEvent;
-import com.web.inventory.models.Inventory;
-
-import java.util.List;
 
 public interface InventoryService {
 

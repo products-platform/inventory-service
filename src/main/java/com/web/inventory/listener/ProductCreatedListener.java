@@ -41,7 +41,7 @@ public class ProductCreatedListener {
 
     public void processProduct(InventoryCreateEvent event) {
         // Example business logic
-        System.out.println("Processing product: " + event.sku());
+        /*System.out.println("Processing product: " + event.sku());
         if (inventoryService.findByProductId(event.productId())) {
             return;
         }
@@ -53,6 +53,6 @@ public class ProductCreatedListener {
                 .reservedQuantity(0)
                 .build();
 
-        inventoryService.saveInventory(inventory);
+        inventoryService.saveInventory(inventory);*/
     }
 }

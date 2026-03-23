@@ -1,6 +1,6 @@
 package com.web.inventory.producer;
 
-import com.web.inventory.dtos.OrderCreatedEvent;
+import com.product.dtos.OrderCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;

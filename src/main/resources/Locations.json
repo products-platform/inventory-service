@@ -1,0 +1,324 @@
+[
+  {
+    "name": "Bangalore Warehouse 1",
+    "city": "Bangalore",
+    "state": "Karnataka",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Bangalore Warehouse 2",
+    "city": "Bangalore",
+    "state": "Karnataka",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Hyderabad Warehouse 1",
+    "city": "Hyderabad",
+    "state": "Telangana",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Hyderabad Warehouse 2",
+    "city": "Hyderabad",
+    "state": "Telangana",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Chennai Warehouse 1",
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Chennai Warehouse 2",
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Mumbai Warehouse 1",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Mumbai Warehouse 2",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Delhi Warehouse 1",
+    "city": "Delhi",
+    "state": "Delhi",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Delhi Warehouse 2",
+    "city": "Delhi",
+    "state": "Delhi",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Pune Warehouse 1",
+    "city": "Pune",
+    "state": "Maharashtra",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Pune Warehouse 2",
+    "city": "Pune",
+    "state": "Maharashtra",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Kolkata Warehouse 1",
+    "city": "Kolkata",
+    "state": "West Bengal",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Kolkata Warehouse 2",
+    "city": "Kolkata",
+    "state": "West Bengal",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Ahmedabad Warehouse 1",
+    "city": "Ahmedabad",
+    "state": "Gujarat",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Ahmedabad Warehouse 2",
+    "city": "Ahmedabad",
+    "state": "Gujarat",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Jaipur Warehouse 1",
+    "city": "Jaipur",
+    "state": "Rajasthan",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Jaipur Warehouse 2",
+    "city": "Jaipur",
+    "state": "Rajasthan",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Lucknow Warehouse 1",
+    "city": "Lucknow",
+    "state": "Uttar Pradesh",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Lucknow Warehouse 2",
+    "city": "Lucknow",
+    "state": "Uttar Pradesh",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Chandigarh Warehouse 1",
+    "city": "Chandigarh",
+    "state": "Chandigarh",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Chandigarh Warehouse 2",
+    "city": "Chandigarh",
+    "state": "Chandigarh",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Bhopal Warehouse 1",
+    "city": "Bhopal",
+    "state": "Madhya Pradesh",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Bhopal Warehouse 2",
+    "city": "Bhopal",
+    "state": "Madhya Pradesh",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Indore Warehouse 1",
+    "city": "Indore",
+    "state": "Madhya Pradesh",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Indore Warehouse 2",
+    "city": "Indore",
+    "state": "Madhya Pradesh",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Nagpur Warehouse 1",
+    "city": "Nagpur",
+    "state": "Maharashtra",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Nagpur Warehouse 2",
+    "city": "Nagpur",
+    "state": "Maharashtra",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Coimbatore Warehouse 1",
+    "city": "Coimbatore",
+    "state": "Tamil Nadu",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Coimbatore Warehouse 2",
+    "city": "Coimbatore",
+    "state": "Tamil Nadu",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Kochi Warehouse 1",
+    "city": "Kochi",
+    "state": "Kerala",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Kochi Warehouse 2",
+    "city": "Kochi",
+    "state": "Kerala",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Trivandrum Warehouse 1",
+    "city": "Trivandrum",
+    "state": "Kerala",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Trivandrum Warehouse 2",
+    "city": "Trivandrum",
+    "state": "Kerala",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Surat Warehouse 1",
+    "city": "Surat",
+    "state": "Gujarat",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Surat Warehouse 2",
+    "city": "Surat",
+    "state": "Gujarat",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Patna Warehouse 1",
+    "city": "Patna",
+    "state": "Bihar",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Patna Warehouse 2",
+    "city": "Patna",
+    "state": "Bihar",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Ranchi Warehouse 1",
+    "city": "Ranchi",
+    "state": "Jharkhand",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Ranchi Warehouse 2",
+    "city": "Ranchi",
+    "state": "Jharkhand",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Guwahati Warehouse 1",
+    "city": "Guwahati",
+    "state": "Assam",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Guwahati Warehouse 2",
+    "city": "Guwahati",
+    "state": "Assam",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Vizag Warehouse 1",
+    "city": "Visakhapatnam",
+    "state": "Andhra Pradesh",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Vizag Warehouse 2",
+    "city": "Visakhapatnam",
+    "state": "Andhra Pradesh",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Mysore Warehouse 1",
+    "city": "Mysore",
+    "state": "Karnataka",
+    "country": "India",
+    "type": "WAREHOUSE"
+  },
+  {
+    "name": "Mysore Warehouse 2",
+    "city": "Mysore",
+    "state": "Karnataka",
+    "country": "India",
+    "type": "WAREHOUSE"
+  }
+]
