@@ -2,7 +2,8 @@ package com.web.inventory.services;
 
 import com.product.dtos.InventoryRequest;
 import com.product.dtos.InventoryResponse;
-import com.product.dtos.ReserveRequest;
+import com.product.enums.OrderStatus;
+import com.web.inventory.mappers.InventoryMapper;
 import com.web.inventory.models.Inventory;
 import com.web.inventory.models.InventoryTransaction;
 import com.web.inventory.repos.InventoryRepository;
@@ -11,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,15 +21,16 @@ public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
     private final InventoryTxnRepository txnRepository;
+    private final InventoryMapper inventoryMapper;
 
     @Override
     public InventoryResponse addStock(InventoryRequest request) {
         Inventory inventory = inventoryRepository
-                .findByVariantSkuAndLocationId(request.variantSku(), request.locationId())
+                .findByVariantSkuAndLocationId(request.variantName(), Long.valueOf(request.locationId()))
                 .orElseGet(() -> {
                     Inventory inv = new Inventory();
-                    inv.setVariantSku(request.variantSku());
-                    inv.setLocationId(request.locationId());
+                    inv.setVariantSku(request.variantName());
+                    inv.setLocationId(Long.valueOf(request.locationId()));
                     return inv;
                 });
 
@@ -36,13 +38,65 @@ public class InventoryServiceImpl implements InventoryService {
 
         inventoryRepository.save(inventory);
 
-        logTxn(request.variantSku(), request.locationId(), "ADD", request.quantity(), null);
+        //logTxn(request.variantName(), request.locationId(), "ADD", request.quantity(), null);
 
-        return map(inventory);
+        return inventoryMapper.toRecord(inventory);
+    }
+
+
+    @Override
+    @Transactional
+    public String reserveStock(List<InventoryRequest> requests) {
+        for (InventoryRequest req : requests) {
+            int updated = inventoryRepository.reserveStock(
+                    req.variantName(),   // SKU
+                    req.locationId(),
+                    req.quantity()
+            );
+
+            if (updated == 0) {
+                throw new RuntimeException(
+                        "Insufficient stock for SKU: " + req.variantName()
+                );
+            }
+
+            InventoryTransaction inventoryTransaction = inventoryMapper.toEntity(req);
+
+            txnRepository.save(inventoryTransaction);
+        }
+        return "Reserved";
     }
 
     @Override
-    public InventoryResponse reserveStock(ReserveRequest request) {
+    @Transactional
+    public String releaseStock(List<InventoryRequest> requests) {
+        for (InventoryRequest req : requests) {
+
+            int updated = inventoryRepository.releaseStock(
+                    req.variantName(),
+                    req.locationId(),
+                    req.quantity()
+            );
+
+            if (updated == 0) {
+                throw new RuntimeException("Release failed for SKU: " + req.variantName());
+            }
+
+            InventoryTransaction inventoryTransaction = inventoryMapper.toEntity(req);
+            inventoryTransaction.setStatus(OrderStatus.RELEASED);
+
+            txnRepository.save(inventoryTransaction);
+        }
+        return "Released";
+    }
+
+    @Override
+    public InventoryResponse deductStock(List<InventoryRequest> inventoryRequests) {
+        return null;
+    }
+
+    /*@Override
+    public InventoryResponse reserveStock(List<InventoryRequest> inventoryRequests) {
 
         Inventory inventory = getInventory(request);
 
@@ -60,7 +114,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public InventoryResponse releaseStock(ReserveRequest request) {
+    public InventoryResponse releaseStock(List<InventoryRequest> inventoryRequests) {
 
         Inventory inventory = getInventory(request);
 
@@ -74,7 +128,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public InventoryResponse deductStock(ReserveRequest request) {
+    public InventoryResponse deductStock(List<InventoryRequest> inventoryRequests) {
 
         Inventory inventory = getInventory(request);
 
@@ -86,7 +140,7 @@ public class InventoryServiceImpl implements InventoryService {
         return map(inventory);
     }
 
-    private Inventory getInventory(ReserveRequest request) {
+    private Inventory getInventory(List<InventoryRequest> inventoryRequests) {
         return inventoryRepository
                 .findByVariantSkuAndLocationId(request.variantSku(), request.locationId())
                 .orElseThrow(() -> new RuntimeException("Inventory not found"));
@@ -110,5 +164,5 @@ public class InventoryServiceImpl implements InventoryService {
                 inv.getAvailableQty(),
                 inv.getReservedQty()
         );
-    }
+    }*/
 }

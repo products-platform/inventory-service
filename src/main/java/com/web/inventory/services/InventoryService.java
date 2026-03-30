@@ -2,16 +2,17 @@ package com.web.inventory.services;
 
 import com.product.dtos.InventoryRequest;
 import com.product.dtos.InventoryResponse;
-import com.product.dtos.ReserveRequest;
+
+import java.util.List;
 
 public interface InventoryService {
 
     InventoryResponse addStock(InventoryRequest request);
 
-    InventoryResponse reserveStock(ReserveRequest request);
+    String reserveStock(List<InventoryRequest> inventoryRequests);
 
-    InventoryResponse releaseStock(ReserveRequest request);
+    String releaseStock(List<InventoryRequest> inventoryRequests);
 
-    InventoryResponse deductStock(ReserveRequest request);
+    InventoryResponse deductStock(List<InventoryRequest> inventoryRequests);
 
 }

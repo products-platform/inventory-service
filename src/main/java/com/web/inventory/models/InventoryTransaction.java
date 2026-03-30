@@ -1,5 +1,6 @@
 package com.web.inventory.models;
 
+import com.product.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,7 +21,9 @@ public class InventoryTransaction {
 
     private String variantSku;
     private Long locationId;
-    private String type;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderStatus status;
     private Integer quantity;
     private String referenceId;
 

@@ -1,14 +1,12 @@
 package com.web.inventory.repos;
 
 import com.web.inventory.models.Inventory;
-import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,4 +19,23 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
     List<Inventory> findAllByProductIdsForUpdate(@Param("ids") List<Long> ids);*/
 
     Optional<Inventory> findByVariantSkuAndLocationId(String sku, Long locationId);
+
+    @Modifying
+    @Query("UPDATE Inventory i " +
+            "SET i.availableQty = i.availableQty - :qty, " +
+            "i.reservedQty = i.reservedQty + :qty " +
+            "WHERE i.variantSku = :sku " +
+            "AND i.locationId = :locationId " +
+            "AND i.availableQty >= :qty")
+    int reserveStock(String sku, Integer locationId, Integer qty);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Inventory i " +
+            "SET i.availableQty = i.availableQty + :qty, " +
+            "i.reservedQty = i.reservedQty - :qty " +
+            "WHERE i.variantSku = :sku " +
+            "AND i.locationId = :locationId " +
+            "AND i.reservedQty >= :qty")
+    int releaseStock(String sku, Integer locationId, Integer qty);
 }
